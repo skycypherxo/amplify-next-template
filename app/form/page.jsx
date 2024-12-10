@@ -9,12 +9,18 @@ export default function DynamoDBTable() {
     const fetchData = async () => {
         try {
             const response = await fetch('/api/fetchData');
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Network response was not ok');
+            }
             const data = await response.json();
             setItems(data);
         } catch (err) {
             setError(err);
-            console.error("Error fetching data:", err);
+            console.error("Detailed error fetching data:", {
+                message: err.message,
+                stack: err.stack
+            });
         }
     };
 
