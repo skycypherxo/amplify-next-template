@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
-const Exhibit = ({ onStallSelectionChange }) => {
+const Exhibit = ({ onStallSelectionChange, bookedStalls }) => {
   const svgContainer = useRef(null);
   const zoomContainerRef = useRef(null);
   const [selectedStalls, setSelectedStalls] = useState(new Set());
