@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import AWS from 'aws-sdk';
-import { v4 as uuidv4 } from 'uuid';
 
 // Configure AWS
 AWS.config.update({
@@ -41,7 +40,6 @@ export async function POST(request) {
             Item: {
                 email_id: body.email_id, 
                 name: body.name,
-                age: Number(body.age),
                 organization_name : body.organization_name,
                 designation : body.designation,
                 contact : Number (body.contact),
