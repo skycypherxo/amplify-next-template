@@ -120,6 +120,14 @@ const Exhibit = ({ onStallSelectionChange, bookedStalls }) => {
               element.style.pointerEvents = "none";
             });
 
+            // Color booked stalls red
+            bookedStalls.forEach((stallId) => {
+              const stall = svgElement.getElementById(stallId);
+              if (stall) {
+                stall.style.fill = "red"; // Set booked stalls to red
+              }
+            });
+
             // Add event listeners to each stall dynamically
             for (let i = 1; i <= 164; i++) {
               const stall = svgElement.getElementById(`stall${i}`);
@@ -134,7 +142,7 @@ const Exhibit = ({ onStallSelectionChange, bookedStalls }) => {
                     const newSelected = new Set(prevSelected);
                     if (newSelected.has(stallId)) {
                       newSelected.delete(stallId);
-                      stall.style.fill = ""; // Reset to original color
+                      stall.style.fill = bookedStalls.has(stallId) ? "red" : ""; // Reset to original color or red if booked
                     } else {
                       newSelected.add(stallId);
                       stall.style.fill = "cyan"; // Selected color
@@ -169,7 +177,7 @@ const Exhibit = ({ onStallSelectionChange, bookedStalls }) => {
     };
 
     loadSVG();
-  }, []);
+  }, [bookedStalls]);
 
   // Improved drag handling
   const handleMouseDown = (event) => {
