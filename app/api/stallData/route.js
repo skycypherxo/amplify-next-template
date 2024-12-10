@@ -47,14 +47,14 @@ export async function POST(request) {
   }
   
 
-// GET method to fetch available stalls
+// GET method to fetch booked stalls
 export async function GET() {
   try {
     const command = new ScanCommand({
       TableName: 'Stalls',
       FilterExpression: 'booking_status = :status',
       ExpressionAttributeValues: {
-        ':status': false,
+        ':status': true,
       },
     });
 

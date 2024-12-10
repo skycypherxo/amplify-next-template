@@ -17,21 +17,18 @@ const Page = () => {
     website: '',
   });
 
-  // Fetch booked stalls on component mount
+  // Updated fetchBookedStalls function
   const fetchBookedStalls = async () => {
     try {
       const response = await fetch('/api/stallData');
       if (!response.ok) throw new Error('Failed to fetch booked stalls');
       const data = await response.json();
-
-      if (data.Items) {
-        const booked = new Set(
-          data.Items
-            .filter((stall) => stall.booking_status)
-            .map((stall) => `stall${stall.stall_number}`)
-        );
-        setBookedStalls(booked);
-      }
+      
+      // Create a Set of stall IDs in the format "stall{number}"
+      const booked = new Set(
+        data.map(stall => `stall${stall.Stall_Number}`)
+      );
+      setBookedStalls(booked);
     } catch (error) {
       console.error('Error fetching booked stalls:', error);
     }
