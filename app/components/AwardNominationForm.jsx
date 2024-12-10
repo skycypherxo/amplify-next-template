@@ -46,30 +46,41 @@ const AwardNominationForm = () => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    if (validateForm()) {
-      try {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    try {
         const response = await fetch('/api/awardsData', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email_id: formData.email,
+                name: formData.name,
+                organization_name: formData.organizationName,
+                designation: formData.designation,
+                contact: formData.contactNumber,
+                social_link: formData.websiteLink,
+                award_category: formData.awardsCategory,
+                project_details: formData.projectDetails,
+                reason: formData.reason
+            })
         });
-  
+
+        const data = await response.json();
+        
         if (!response.ok) {
-          throw new Error('Failed to submit data');
+            throw new Error(data.error || 'Failed to submit data');
         }
-  
-        const result = await response.json();
-        console.log('Data submitted successfully:', result);
-      } catch (error) {
+
+        alert('Form submitted successfully!');
+        
+    } catch (error) {
         console.error('Error submitting data:', error);
-      }
+        alert(error.message || 'Failed to submit form');
     }
-  };
+};
   
 
   return (

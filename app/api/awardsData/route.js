@@ -1,25 +1,26 @@
 import { NextResponse } from 'next/server';
-import AWS from 'aws-sdk';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, ScanCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 // Configure AWS
-AWS.config.update({
+const client = new DynamoDBClient({
     region: 'ap-south-1',
-    credentials: new AWS.Credentials({
+    credentials: {
         accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY
-    })
+    }
 });
 
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const docClient = DynamoDBDocumentClient.from(client);
 
 // GET method to fetch all items
 export async function GET() {
-    const params = {
+    const command = new ScanCommand({
         TableName: 'Awards'
-    };
+    });
 
     try {
-        const data = await dynamoDB.scan(params).promise();
+        const data = await docClient.send(command);
         return NextResponse.json(data.Items);
     } catch (err) {
         console.error("Error fetching data:", err);
@@ -35,24 +36,58 @@ export async function POST(request) {
     try {
         const body = await request.json();
         
-        const params = {
+        // Validate required fields
+        const requiredFields = [
+            'email_id',
+            'name',
+            'organization_name',
+            'designation',
+            'award_category'
+        ];
+
+        const missingFields = requiredFields.filter(field => !body[field]);
+        if (missingFields.length > 0) {
+            return NextResponse.json(
+                { 
+                    error: `Missing required fields: ${missingFields.join(', ')}` 
+                },
+                { status: 400 }
+            );
+        }
+
+        // Validate and convert contact number if present
+        let contactNumber = null;
+        if (body.contact) {
+            contactNumber = parseInt(body.contact);
+            if (isNaN(contactNumber)) {
+                return NextResponse.json(
+                    { error: 'Invalid contact number' },
+                    { status: 400 }
+                );
+            }
+        }
+
+        const command = new PutCommand({
             TableName: 'Awards',
             Item: {
-                email_id: body.email_id, 
+                email_id: body.email_id,
                 name: body.name,
-                organization_name : body.organization_name,
-                designation : body.designation,
-                contact : Number (body.contact),
-                social_link : body.social_link,
-                award_category : body.award_category,
-                project_details : body.project_details,
-                reason:body.reason
+                organization_name: body.organization_name,
+                designation: body.designation,
+                contact: contactNumber,
+                social_link: body.social_link || null,
+                award_category: body.award_category,
+                project_details: body.project_details || null,
+                reason: body.reason || null
             }
-        };
+        });
 
-        await dynamoDB.put(params).promise();
+        await docClient.send(command);
         
-        return NextResponse.json({ message: 'Item added successfully' });
+        return NextResponse.json({ 
+            message: 'Item added successfully',
+            data: command.input.Item
+        });
     } catch (err) {
         console.error("Error adding item:", err);
         return NextResponse.json(
