@@ -1,53 +1,18 @@
 import { NextResponse } from 'next/server';
-import AWS from 'aws-sdk';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 
-// Configure AWS with explicit region
-AWS.config.update({
+// Configure AWS Client
+const client = new DynamoDBClient({
     region: process.env.NEXT_PUBLIC_AWS_REGION || 'ap-south-1',
-    credentials: new AWS.Credentials({
+    credentials: {
         accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY
-    })
+    }
 });
 
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
-
-// GET method to fetch all items
-export async function GET() {
-    try {
-        // Add logging for debugging
-        console.log('Attempting to fetch data from DynamoDB');
-        
-        const params = {
-            TableName: 'Test'
-        };
-
-        const data = await dynamoDB.scan(params).promise();
-        
-        // Log successful response
-        console.log('Successfully fetched data:', data);
-        
-        return NextResponse.json(data.Items);
-    } catch (err) {
-        // Enhanced error logging
-        console.error("Detailed error fetching data:", {
-            message: err.message,
-            code: err.code,
-            statusCode: err.statusCode,
-            requestId: err.requestId,
-            stack: err.stack
-        });
-
-        return NextResponse.json(
-            { 
-                error: 'Failed to fetch DynamoDB data',
-                details: process.env.NODE_ENV === 'development' ? err.message : 'Internal Server Error'
-            },
-            { status: 500 }
-        );
-    }
-}
+const docClient = DynamoDBDocumentClient.from(client);
 
 /// POST method to add/update stall status
 export async function POST(request) {
@@ -62,15 +27,15 @@ export async function POST(request) {
             );
         }
 
-        const params = {
+        const command = new PutCommand({
             TableName: 'Stalls',
             Item: {
                 stall_id: body.stall_id,
                 booking_status: true
             }
-        };
+        });
 
-        await dynamoDB.put(params).promise();
+        await docClient.send(command);
         
         return NextResponse.json({ message: 'Stall status updated successfully' });
     } catch (err) {
@@ -85,15 +50,15 @@ export async function POST(request) {
 // GET method to fetch available stalls
 export async function GET() {
     try {
-        const params = {
+        const command = new ScanCommand({
             TableName: 'Stalls',
             FilterExpression: 'booking_status = :status',
             ExpressionAttributeValues: {
                 ':status': false
             }
-        };
+        });
 
-        const data = await dynamoDB.scan(params).promise();
+        const data = await docClient.send(command);
         return NextResponse.json(data.Items);
     } catch (err) {
         console.error("Detailed error fetching stalls:", err);
