@@ -14,20 +14,21 @@ const Page = () => {
     designation: '',
     contact: '',
     email: '',
-    website: ''
+    website: '',
   });
 
-  // Fetch booked stalls
+  // Fetch booked stalls on component mount
   const fetchBookedStalls = async () => {
     try {
       const response = await fetch('/api/stallData');
+      if (!response.ok) throw new Error('Failed to fetch booked stalls');
       const data = await response.json();
-      
+
       if (data.Items) {
         const booked = new Set(
           data.Items
-            .filter(stall => stall.bookingStatus)
-            .map(stall => `stall${stall.Stall_Number}`)
+            .filter((stall) => stall.booking_status)
+            .map((stall) => `stall${stall.stall_number}`)
         );
         setBookedStalls(booked);
       }
@@ -36,70 +37,63 @@ const Page = () => {
     }
   };
 
-  // Fetch booked stalls on mount
   useEffect(() => {
     fetchBookedStalls();
   }, []);
 
+  // Handle input field changes
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
-      // Submit exhibit data
-      const exhibitResponse = await fetch('/api/exhibitData', {
+      const response = await fetch('/api/exhibitData', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          stall_number: [...selectedStalls].map(stallId => stallId.replace(/[^\d]/g, "")).join(", ")
+          stall_ids: [...selectedStalls].map((stallId) => stallId.replace(/[^\d]/g, '')),
         }),
       });
 
-      if (!exhibitResponse.ok) {
-        throw new Error('Failed to submit exhibit form');
-      }
+      if (!response.ok) throw new Error('Failed to submit exhibit form');
 
-      // Update stall statuses
-      const stallUpdatePromises = [...selectedStalls].map(stallId => {
-        const stallNumber = parseInt(stallId.replace(/[^\d]/g, ""));
+      const stallPromises = [...selectedStalls].map((stallId) => {
+        const stallNumber = parseInt(stallId.replace(/[^\d]/g, ''), 10);
         return fetch('/api/stallData', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            stall_number: stallNumber,
-          }),
+          body: JSON.stringify({ stall_id: stallNumber }), 
         });
       });
+      
 
-      const results = await Promise.all(stallUpdatePromises);
-      const failedUpdates = results.filter(r => !r.ok);
-
+      const results = await Promise.all(stallPromises);
+      const failedUpdates = results.filter((r) => !r.ok);
       if (failedUpdates.length > 0) {
         throw new Error(`Failed to update ${failedUpdates.length} stall(s)`);
       }
 
-      // Refresh booked stalls
       await fetchBookedStalls();
 
-      // Reset form
       setFormData({
         name: '',
         organization_name: '',
         designation: '',
         contact: '',
         email: '',
-        website: ''
+        website: '',
       });
       setSelectedStalls(new Set());
-      
+
       alert('Form submitted successfully!');
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -109,11 +103,10 @@ const Page = () => {
     }
   };
 
-  // Handle stall selection change in the parent component
+  // Handle stall selection change
   const handleStallSelectionChange = (newSelectedStalls) => {
-    // Filter out any booked stalls from selection
     const validStalls = new Set(
-      [...newSelectedStalls].filter(stallId => !bookedStalls.has(stallId))
+      [...newSelectedStalls].filter((stallId) => !bookedStalls.has(stallId))
     );
     setSelectedStalls(validStalls);
   };
@@ -132,76 +125,74 @@ const Page = () => {
 
         <form onSubmit={handleSubmit} className="exhibit-form">
           <div className="form-group">
-            <input 
+            <input
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="register-forminput" 
-              type="text" 
-              placeholder="Name" 
-              required 
+              className="register-forminput"
+              type="text"
+              placeholder="Name"
+              required
             />
-            <input 
+            <input
               name="organization_name"
               value={formData.organization_name}
               onChange={handleInputChange}
-              className="register-forminput" 
-              type="text" 
-              placeholder="Organization Name" 
-              required 
+              className="register-forminput"
+              type="text"
+              placeholder="Organization Name"
+              required
             />
-            <input 
+            <input
               name="designation"
               value={formData.designation}
               onChange={handleInputChange}
-              className="register-forminput" 
-              type="text" 
-              placeholder="Designation" 
+              className="register-forminput"
+              type="text"
+              placeholder="Designation"
             />
           </div>
           <div className="form-group">
-            <input 
+            <input
               name="contact"
               value={formData.contact}
               onChange={handleInputChange}
-              className="register-forminput" 
-              type="text" 
-              placeholder="Contact Number" 
+              className="register-forminput"
+              type="text"
+              placeholder="Contact Number"
             />
-            <input 
+            <input
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="register-forminput" 
-              type="email" 
-              placeholder="Official Email ID" 
+              className="register-forminput"
+              type="email"
+              placeholder="Official Email ID"
             />
-            <input 
+            <input
               name="website"
               value={formData.website}
               onChange={handleInputChange}
-              className="register-forminput" 
-              type="text" 
-              placeholder="Website/ Social Media Links" 
+              className="register-forminput"
+              type="text"
+              placeholder="Website/ Social Media Links"
             />
           </div>
 
-          <Exhibit 
-            onStallSelectionChange={handleStallSelectionChange} 
+          <Exhibit
+            onStallSelectionChange={handleStallSelectionChange}
             bookedStalls={bookedStalls}
             selectedStalls={selectedStalls}
           />
 
-          {/* Display selected stalls (if any) */}
           <div className="selected-stalls">
             {selectedStalls.size > 0 ? (
               <div className="mt-8">
                 <h3 className="text-lg font-semibold">Selected Stalls:</h3>
                 <p className="text-gray-700">
-                  {/* Slice the 'stall' part and only display the numbers */}
-                  {([...selectedStalls])
-                    .map(stallId => stallId.replace(/[^\d]/g, ""))  // Remove non-digit characters
-                    .join(", ")}
+                  {[...selectedStalls]
+                    .map((stallId) => stallId.replace(/[^\d]/g, ''))
+                    .join(', ')}
                 </p>
               </div>
             ) : (
@@ -209,7 +200,9 @@ const Page = () => {
             )}
           </div>
 
-          <button type="submit" id="registerform-submitbutton" disabled={isSubmitting}>Book</button>
+          <button type="submit" id="registerform-submitbutton" disabled={isSubmitting}>
+            {isSubmitting ? 'Booking...' : 'Book'}
+          </button>
         </form>
       </section>
     </div>
