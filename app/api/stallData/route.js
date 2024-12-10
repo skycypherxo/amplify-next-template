@@ -49,51 +49,57 @@ export async function GET() {
     }
 }
 
-// POST method to add new item
+/// POST method to add/update stall status
 export async function POST(request) {
     try {
         const body = await request.json();
         
-        // Updated validation
-        if (!body.name || !body.organization_name) {
+        // Validate input
+        if (!body.stall_id) {
             return NextResponse.json(
-                { error: 'Name and organization name are required' },
+                { error: 'Stall ID is required' },
                 { status: 400 }
             );
         }
 
         const params = {
-            TableName: 'Exhibits',
+            TableName: 'Stalls',
             Item: {
-                exhibit_id: uuidv4(),
-                name: body.name,
-                organization_name: body.organization_name,
-                designation: body.designation || '',
-                contact: body.contact || '',
-                email: body.email || '',
-                website: body.website || '',
-                stall_number: body.stall_number || ''
+                stall_id: body.stall_id,
+                booking_status: true
             }
         };
 
         await dynamoDB.put(params).promise();
         
-        return NextResponse.json({ message: 'Item added successfully' });
+        return NextResponse.json({ message: 'Stall status updated successfully' });
     } catch (err) {
-        console.error("Detailed error adding item:", {
-            message: err.message,
-            code: err.code,
-            statusCode: err.statusCode,
-            requestId: err.requestId,
-            stack: err.stack
-        });
-
+        console.error("Detailed error updating stall:", err);
         return NextResponse.json(
-            { 
-                error: 'Failed to add item to DynamoDB',
-                details: process.env.NODE_ENV === 'development' ? err.message : 'Internal Server Error'
-            },
+            { error: 'Failed to update stall status' },
             { status: 500 }
         );
     }
-} 
+}
+
+// GET method to fetch available stalls
+export async function GET() {
+    try {
+        const params = {
+            TableName: 'Stalls',
+            FilterExpression: 'booking_status = :status',
+            ExpressionAttributeValues: {
+                ':status': false
+            }
+        };
+
+        const data = await dynamoDB.scan(params).promise();
+        return NextResponse.json(data.Items);
+    } catch (err) {
+        console.error("Detailed error fetching stalls:", err);
+        return NextResponse.json(
+            { error: 'Failed to fetch stalls' },
+            { status: 500 }
+        );
+    }
+}
