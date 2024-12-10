@@ -1,26 +1,21 @@
 import { NextResponse } from 'next/server';
-import AWS from 'aws-sdk';
+import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 
-// Configure AWS
-AWS.config.update({
+const sesClient = new SESClient({
     region: 'ap-south-1',
-    credentials: new AWS.Credentials({
+    credentials: {
         accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY
-    })
+    }
 });
-
-// Create SES service object
-const ses = new AWS.SES({ apiVersion: '2010-12-01' });
 
 export async function POST(req) {
     try {
         const data = await req.json();
 
-        // Create email parameters
-        const params = {
+        const command = new SendEmailCommand({
             Destination: {
-                ToAddresses: [data.email] // Recipient's email
+                ToAddresses: [data.email]
             },
             Message: {
                 Body: {
@@ -33,20 +28,16 @@ export async function POST(req) {
                             <p>Amount Paid: ${data.amountPaid}</p>
                             <p>Transaction ID: ${data.transactionId}</p>
                         `
-                    },
-                    Text: {
-                        Data: `Invoice Details\n\nOrganization: ${data.orgName}\nContact Person: ${data.contactPerson}\nStall Number: ${data.stallNumber}\nAmount Paid: ${data.amountPaid}\nTransaction ID: ${data.transactionId}`
                     }
                 },
                 Subject: {
                     Data: 'Your Invoice'
                 }
             },
-            Source: process.env.AWS_SES_SENDER_EMAIL // Your verified email in SES
-        };
+            Source: process.env.AWS_SES_SENDER_EMAIL
+        });
 
-        // Send email
-        const result = await ses.sendEmail(params).promise();
+        const result = await sesClient.send(command);
         
         return NextResponse.json({ 
             message: 'Email sent successfully',
