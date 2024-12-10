@@ -7,13 +7,20 @@ backend:
         - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
 frontend:
   phases:
+    preBuild:
+      commands:
+        - npm ci --cache .npm --prefer-offline
     build:
       commands:
+        - env | grep -e AWS_APP_ID -e AWS_BRANCH >> .env.production
         - npm run build
   artifacts:
     baseDirectory: .next
     files:
       - '**/*'
+      - ../.next-server/**/*
+      - ../node_modules/**/*
+      - ../package.json
   cache:
     paths:
       - .next/cache/**/*
