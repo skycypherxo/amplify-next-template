@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import "./../app/app.css";
 import { Amplify } from "aws-amplify";
-import outputs from "@/amplify_outputs.json";
+import outputs from "../amplify/amplify_outputs.json";
+
 
 Amplify.configure(outputs);
 
