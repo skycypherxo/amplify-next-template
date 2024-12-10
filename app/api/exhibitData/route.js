@@ -1,49 +1,31 @@
 import { NextResponse } from 'next/server';
-import AWS from 'aws-sdk';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 
-// Configure AWS with explicit region
-AWS.config.update({
+const client = new DynamoDBClient({
     region: process.env.NEXT_PUBLIC_AWS_REGION || 'ap-south-1',
-    credentials: new AWS.Credentials({
+    credentials: {
         accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY
-    })
+    }
 });
 
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const docClient = DynamoDBDocumentClient.from(client);
 
 // GET method to fetch all items
 export async function GET() {
     try {
-        // Add logging for debugging
-        console.log('Attempting to fetch data from DynamoDB');
-        
-        const params = {
+        const command = new ScanCommand({
             TableName: 'Test'
-        };
-
-        const data = await dynamoDB.scan(params).promise();
-        
-        // Log successful response
-        console.log('Successfully fetched data:', data);
-        
-        return NextResponse.json(data.Items);
-    } catch (err) {
-        // Enhanced error logging
-        console.error("Detailed error fetching data:", {
-            message: err.message,
-            code: err.code,
-            statusCode: err.statusCode,
-            requestId: err.requestId,
-            stack: err.stack
         });
 
+        const data = await docClient.send(command);
+        return NextResponse.json(data.Items);
+    } catch (err) {
+        console.error("Detailed error fetching data:", err);
         return NextResponse.json(
-            { 
-                error: 'Failed to fetch DynamoDB data',
-                details: process.env.NODE_ENV === 'development' ? err.message : 'Internal Server Error'
-            },
+            { error: 'Failed to fetch DynamoDB data' },
             { status: 500 }
         );
     }
@@ -76,18 +58,11 @@ export async function POST(request) {
             }
         };
 
-        await dynamoDB.put(params).promise();
+        await docClient.send(new PutCommand(params));
         
         return NextResponse.json({ message: 'Item added successfully' });
     } catch (err) {
-        console.error("Detailed error adding item:", {
-            message: err.message,
-            code: err.code,
-            statusCode: err.statusCode,
-            requestId: err.requestId,
-            stack: err.stack
-        });
-
+        console.error("Detailed error adding item:", err);
         return NextResponse.json(
             { 
                 error: 'Failed to add item to DynamoDB',

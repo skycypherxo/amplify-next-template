@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background-color: #0b3d83;
+    color: white;
+    padding: 10% 0;
+    text-align: center;
+  }
+
+  header h1 {
+    margin-top: 2rem;
+    font-size: 5rem;
+    font-weight: bold;
+  }
+
+  header p{
+    font-size: 250%;
+  }
+  
+  .container1 {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+  }
+
+  .container2 {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #4c1f89;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+  }
+
+  .section {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    align-self: center;
+  }
+  .section h2 {
+    color: #333;
+    margin-top: 0;
+    font-size: 4rem;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .person-three-cards {
+    display: grid;
+    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .person-four-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .person-five-cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr)); /* Responsive grid */
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .person-card {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+    text-align: center;
+    padding: 5%;
+  }
+
+  .person-card img {
+    width: 100%;
+    height: auto;
+    max-width: 320px;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+
+  .person-card p{
+    text-align: left;
+    margin-bottom: 10px
+  }
+
+  #speaker-image {
+    width: 100%;
+    height: auto;
+    max-width: 200px; 
+  }
+
+  #panelist-image {
+    width: 100%;
+    height: auto; 
+    max-width: 150px;
+  }
+
+  #partners-image {
+    width: 100%;
+    height: auto; 
+    max-width: 350px;
+  }
+
+  .name {
+    width: 100%; 
+    text-align: center; 
+    font-size: 1.5vw; 
+    margin-bottom: 10px; 
+  }      
+
+  .footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 5% 0;
+    margin-top: 20px;
+  }
+
+  a {
+    color: #0047ab;
+    text-decoration: none;
+  }
+
+  /* Media Queries for additional responsiveness */
+@media (max-width: 768px) {
+  .section h2 {
+      font-size: 6vw; /* Adjust font size for smaller screens */
+  }
+  .name {
+      font-size: 4vw; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .section h2 {
+      font-size: 8vw; /* Further adjust font size for very small screens */
+  }
+  .name {
+      font-size: 5vw; /* Further adjust font size for very small screens */
+  }
+}

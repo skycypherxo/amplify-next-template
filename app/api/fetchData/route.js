@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server';
-import AWS from 'aws-sdk';
-import { v4 as uuidv4 } from 'uuid';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 
-// Configure AWS with explicit region
-AWS.config.update({
+// Configure AWS Client
+const client = new DynamoDBClient({
     region: process.env.NEXT_PUBLIC_AWS_REGION || 'ap-south-1',
-    credentials: new AWS.Credentials({
+    credentials: {
         accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY
-    })
+    }
 });
 
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const docClient = DynamoDBDocumentClient.from(client);
 
 // GET method to fetch all items
 export async function GET() {
@@ -19,11 +19,11 @@ export async function GET() {
         // Add logging for debugging
         console.log('Attempting to fetch data from DynamoDB');
         
-        const params = {
+        const command = new ScanCommand({
             TableName: 'Test'
-        };
+        });
 
-        const data = await dynamoDB.scan(params).promise();
+        const data = await docClient.send(command);
         
         // Log successful response
         console.log('Successfully fetched data:', data);
