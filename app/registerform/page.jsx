@@ -118,11 +118,13 @@ const Page = () => {
       </header>
 
       <section className="form-section">
-        <h2 className="font-semibold">Register to Exhibit</h2>
+        <h2 className="font-semibold mb-4 ">Register to Exhibit</h2>
 
         <form onSubmit={handleSubmit} className="exhibit-form">
           <div className="form-group">
-            <input
+            <label htmlFor="name" className="form-label">Name</label>
+            <input 
+              id="name"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
@@ -131,7 +133,9 @@ const Page = () => {
               placeholder="Name"
               required
             />
-            <input
+            <label htmlFor="organization_name" className="form-label">Organization Name</label>
+            <input 
+              id="organization_name"
               name="organization_name"
               value={formData.organization_name}
               onChange={handleInputChange}
@@ -140,7 +144,9 @@ const Page = () => {
               placeholder="Organization Name"
               required
             />
-            <input
+            <label htmlFor="designation" className="form-label">Designation</label>
+            <input 
+              id="designation"
               name="designation"
               value={formData.designation}
               onChange={handleInputChange}
@@ -150,7 +156,9 @@ const Page = () => {
             />
           </div>
           <div className="form-group">
-            <input
+            <label htmlFor="contact" className="form-label">Contact Number</label>
+            <input 
+              id="contact"
               name="contact"
               value={formData.contact}
               onChange={handleInputChange}
@@ -158,7 +166,7 @@ const Page = () => {
               type="text"
               placeholder="Contact Number"
             />
-            <input
+            <input 
               name="email"
               value={formData.email}
               onChange={handleInputChange}
@@ -166,7 +174,7 @@ const Page = () => {
               type="email"
               placeholder="Official Email ID"
             />
-            <input
+            <input 
               name="website"
               value={formData.website}
               onChange={handleInputChange}
