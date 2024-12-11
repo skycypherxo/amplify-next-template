@@ -26,8 +26,8 @@ export default function Panelist() {
         
         return (
             <div 
-                className={`p-2 md:p-4 flex flex-col items-center justify-center
-                    ${highlightedCard === key ? 'ring-2 ring-blue-500' : ''}`}
+                className={`p-2 md:p-4 flex flex-col items-center justify-center shadow-lg rounded-md
+                    ${highlightedCard === key ? 'ring-2 ring-cyan-500' : ''}`}
                 key={key}
             >
                 <div className="flex items-center justify-center w-full">
@@ -38,16 +38,16 @@ export default function Panelist() {
                             width: isPanelist ? '192px' : 
                                    isChiefGuest ? '300px' : 
                                    isSpeaker ? '260px' :
-                                   isPartner ? '260px' : 
+                                   isPartner ? '220px' : 
                                    isSpecial ? '260px' : '160px',
                             height: isPanelist ? '192px' : 
                                     isChiefGuest ? '300px' : 
                                     isSpeaker ? '260px' :
-                                    isPartner ? '160px' : 
+                                    isPartner ? '220px' : 
                                     isSpecial ? '260px' : '160px',
                             objectFit: 'cover'
                         }}
-                        className="mb-2 md:mb-4"
+                        className="mb-2 md:mb-4 rounded-md"
                     />
                 </div>
                 {!isPartner && (
@@ -58,7 +58,7 @@ export default function Panelist() {
                 )}
                 {showMoreInfo && (
                     <>
-                        <p className={`text-xs md:text-sm text-center mb-2 md:mb-4
+                        <p className={`text-xs md:text-base text-center mb-2 md:mb-4
                             ${isSpeaker ? 'text-white' : 'text-gray-600'}`}>
                             {person.info}
                         </p>
@@ -66,16 +66,31 @@ export default function Panelist() {
                             className={`transition-all duration-300 overflow-hidden
                                 ${expandedCards[key] ? 'max-h-40' : 'max-h-0'}`}
                         >
-                            <p className={`text-xs md:text-sm ${isSpeaker ? 'text-white' : 'text-gray-600'}`}>
+                            <p className={`text-xs md:text-base text-center ${isSpeaker ? 'text-white' : 'text-gray-600'}`}>
                                 Additional information about {person.name}
                             </p>
                         </div>
-                        <button 
-                            onClick={() => toggleCard(sectionKey, person.id)}
-                            className="mt-2 md:mt-4 px-3 py-1 md:px-4 md:py-2 bg-blue-600 text-white text-sm md:text-base hover:bg-blue-700 transition-colors"
-                        >
-                            {expandedCards[key] ? 'Read Less' : 'Read More'}
-                        </button>
+                        <button
+    onClick={() => toggleCard(sectionKey, person.id)}
+    className={`mt-2 md:mt-4 px-3 py-1 md:px-4 md:py-2 text-sm md:text-base text-cyan-600 transition-all transform ${
+        expandedCards[key] ? 'rotate-180 -translate-y-1' : ''
+    }`}
+>
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 mx-auto transition-transform font-bold"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+    >
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={4}
+            d="M5 15l7-7 7 7"
+        />
+    </svg>
+</button>
                     </>
                 )}
             </div>
@@ -86,7 +101,7 @@ export default function Panelist() {
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <header 
-                className="bg-[url('/panelist-head.jpg')] bg-cover bg-center h-[400px] md:h-[700px] flex flex-col items-center justify-center text-white px-4"
+                className="bg-[url('/panelist-head.jpg')] bg-cover bg-center h-[400px] md:h-[100vh] flex flex-col items-center justify-center text-white px-4"
             >
                 <h1 className="text-4xl md:text-6xl font-bold mb-4 text-center">Speakers & Panelists</h1>
                 <hr className="w-3/4 md:w-1/2 border-t-2 border-white my-4" />
@@ -95,15 +110,15 @@ export default function Panelist() {
 
             {/* Chief Guests */}
             <section className="max-w-7xl mx-auto py-8 md:py-16 px-4">
-                <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">CHIEF GUESTS</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <h2 className="text-3xl md:text-5xl font-bold text-center mb-8 md:mb-12">CHIEF GUESTS</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 ">
                     {data.people.slice(0, 3).map(person => renderCard(person, 'chief'))}
                 </div>
             </section>
 
             {/* Special Guests */}
             <section className="max-w-7xl mx-auto py-8 md:py-16 px-4">
-                <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">SPECIAL GUESTS</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-center mb-8 md:mb-12">SPECIAL GUESTS</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {data.people.slice(0, 3).map(person => renderCard(person, 'special'))}
                 </div>
@@ -112,7 +127,7 @@ export default function Panelist() {
             {/* Speakers */}
             <section className="bg-[#0b3d83] py-8 md:py-16 px-4">
                 <div className="max-w-7xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-8 md:mb-12">SPEAKERS</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-8 md:mb-12">SPEAKERS</h2>
                     {[0, 1, 2].map(row => (
                         <div key={`speaker-row-${row}`} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8 md:mb-12">
                             {data.people.slice(0, 4).map(person => renderCard(person, `speaker-${row}`))}
@@ -123,7 +138,7 @@ export default function Panelist() {
 
             {/* Panelists */}
             <section className="max-w-7xl mx-auto py-8 md:py-16 px-4">
-                <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">PANELISTS</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-center mb-8 md:mb-12">PANELISTS</h2>
                 {[0, 1, 2].map(row => (
                     <div key={`panelist-row-${row}`} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-8 md:mb-12">
                         {data.people.slice(0, 5).map(person => renderCard(person, `panelist-${row}`, false))}
@@ -132,9 +147,9 @@ export default function Panelist() {
             </section>
 
             {/* Partners */}
-            <section className="bg-[#0b3d83] py-16 px-4">
+            <section className="bg-[#0b3d83] py-16 ">
                 <div className="max-w-7xl mx-auto">
-                    <h2 className="text-4xl font-bold text-center text-white mb-12">PARTNERS</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-12">PARTNERS</h2>
                     {[0, 1].map(row => (
                         <div key={`partner-row-${row}`} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                             {data.people.slice(0, 3).map(person => renderCard(person, `partner-${row}`, false))}

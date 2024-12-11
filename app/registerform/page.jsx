@@ -106,7 +106,7 @@ const Page = () => {
     <div className="page-container font-montserrat">
       <header className="hero-section">
         <div className="hero-content">
-          <h1 className="font-bold">Exhibit at MAHA CSR 2025</h1>
+          <h1 className="font-bold text-4xl md:text-6xl">Exhibit at MAHA CSR 2025</h1>
           <p id="stall-quote" className="font-semibold">Have your very own stall at MAHA CSR 2025</p>
         </div>
       </header>

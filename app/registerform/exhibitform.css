@@ -40,11 +40,7 @@ body {
     z-index: 2;
   }
   
-  .hero-content h1 {
-    font-size: 3rem;
-    font-weight: bold;
-  }
-  
+ 
   .hero-content p {
     font-size: 1.2rem;
     margin-top: 0.5rem;

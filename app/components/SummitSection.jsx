@@ -19,7 +19,7 @@ const SummitSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % (totalItems * 2));
-    }, 2000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [totalItems]);
