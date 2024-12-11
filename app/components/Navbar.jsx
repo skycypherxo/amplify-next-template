@@ -32,7 +32,7 @@ const Navbar = () => {
     };
   }, [lastScrollY]);
 
-  return (
+  return ( 
     <header
       className={`${
         isVisible ? "top-0" : "-top-20"
