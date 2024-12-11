@@ -52,14 +52,28 @@ const Navbar = () => {
         } w-full md:w-auto`}
       >
         <ul className="flex flex-col md:flex-row md:space-x-8 list-none text-base px-4 py-1 text-white">
-          <Link href="/"><li>Home</li></Link>
-          <Link href="/panelists"><li>Speakers/Panelists</li></Link>
-          <Link href="/exhibit"><li>Exhibits</li></Link>
-          <Link href="/awards"><li>Awards</li></Link>
-          <Link href="/partners"><li>Partners</li></Link>
-          <Link href="/sponsors"><li>Sponsorships</li></Link>
+          <Link href="/" className="no-underline visited:text-white hover:text-gray-300 hover:underline">
+            <li>Home</li>
+          </Link>
+          <Link href="/panelists" className="no-underline visited:text-white hover:text-gray-300 hover:underline">
+            <li>Speakers/Panelists</li>
+          </Link>
+          <Link href="/exhibit" className="no-underline visited:text-white hover:text-gray-300 hover:underline">
+            <li>Exhibits</li>
+          </Link>
+          <Link href="/awards" className="no-underline visited:text-white hover:text-gray-300 hover:underline">
+            <li>Awards</li>
+          </Link>
+          <Link href="/partners" className="no-underline visited:text-white hover:text-gray-300 hover:underline">
+            <li>Partners</li>
+          </Link>
+          <Link href="/sponsors" className="no-underline visited:text-white hover:text-gray-300 hover:underline">
+            <li>Sponsorships</li>
+          </Link>
           <li>Media</li>
-          <Link href="/contactus"><li>Contact Us</li></Link>
+          <Link href="/contactus" className="no-underline visited:text-white hover:text-gray-300 hover:underline">
+            <li>Contact Us</li>
+          </Link>
         </ul>
       </nav>
     </header>

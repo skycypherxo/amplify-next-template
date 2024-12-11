@@ -14,6 +14,10 @@ module.exports = {
       foreground: "var(--foreground)",
       'page-blue':'#184170',
       'form-blue': '#174173',
+
+      fontFamily: {
+        sans: ['Montserrat', 'sans-serif'],
+      },
     },},
   },
   plugins: [],

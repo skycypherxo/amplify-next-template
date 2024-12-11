@@ -1,0 +1,34 @@
+{
+    "people": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "info": "A software engineer with a passion for open-source projects and a love for coding.",
+        "image": "https://d3lzcn6mbbadaf.cloudfront.net/media/details/9f48c35b-4d2f-4db6-8548-97a7ebbbb966.jpeg"
+      },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "info": "A graphic designer who loves creating beautiful user interfaces and experiences.",
+        "image": "https://via.placeholder.com/150/FF5733/FFFFFF?text=Jane+Smith"
+      },
+      {
+        "id": 3,
+        "name": "Alice Johnson",
+        "info": "A data scientist with expertise in machine learning and artificial intelligence.",
+        "image": "https://via.placeholder.com/150/28A745/FFFFFF?text=Alice+Johnson"
+      },
+      {
+        "id": 4,
+        "name": "Bob Brown",
+        "info": "A project manager who ensures everything runs smoothly and on schedule.",
+        "image": "https://via.placeholder.com/150/FFC107/FFFFFF?text=Bob+Brown"
+      },
+      {
+        "id": 5,
+        "name": "Charlie Davis",
+        "info": "A web developer who enjoys building responsive websites and web applications.",
+        "image": "https://via.placeholder.com/150/6F42C1/FFFFFF?text=Charlie+Davis"
+      }
+    ]
+  }
