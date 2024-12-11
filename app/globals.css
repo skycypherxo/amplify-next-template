@@ -7,9 +7,12 @@
 /* Apply Montserrat as the default font family */
 :root {
   --font-family-base: 'Montserrat', sans-serif;
+
 }
 
 * {
   font-family: var(--font-family-base);
 }
+
+
 

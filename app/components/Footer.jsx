@@ -6,7 +6,7 @@ import { FaYoutube } from "react-icons/fa";
 const Footer = () => {
   return (
     <div className="overflow-clip bg-gradient-to-b from-white to-[#124371] min-h-96 h-auto">
-      <div className="flex justify-center items-center justify-around py-4">
+      <div className="flex  items-center justify-around py-4">
         <p className="md:font-extrabold font-semibold xl:text-4xl lg:text-2xl md:text-xl text-base text-[#124371] md:w-1/5 w-1/4 md:text-left text-justify">
           MAHA CSR SUMMIT 2025
         </p>

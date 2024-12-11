@@ -200,7 +200,7 @@ const AwardNominationForm = () => {
         <div className="col-span-2 w-full flex justify-center">
           <button
             type="submit"
-            className="px-4 form-input text-xl  py-2 bg-white lg:w-[30%]  text-form-blue font-bold rounded-md hover:bg-blue-600 hover:text-white transition"
+            className="px-4 form-input text-xl  py-2 bg-white lg:w-[30%]  text-form-blue font-bold rounded-md hover:bg-[#8ccbe0]  transition mb-[2rem] mt-[1rem]"
           >
             SUBMIT
           </button>

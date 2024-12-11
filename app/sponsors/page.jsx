@@ -1,74 +1,70 @@
 "use client";
+import Image from "next/image";
+import React, { useEffect } from "react";
 
-import Link from "next/link";
-
-export default function SponsorsPage() {
-  const sponsors = [
-    {
-      name: "AWS",
-      tier: "platinum",
-      logo: "/aws-logo.png", // You'll need to add these images
-      description: "Cloud computing services",
-      link: "https://aws.amazon.com"
-    },
-    // Add more sponsors as needed
-  ];
+const Page = () => {
+  useEffect(() => {
+    document.title = "Sponsors";
+  }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center mb-16">
-          <Link 
-            href="/"
-            className="text-blue-600 hover:text-blue-700 mb-8 inline-block"
-          >
-            ← Back to Home
-          </Link>
-          <h1 className="text-5xl font-bold mb-6 text-gray-900">Our Sponsors</h1>
-          <p className="text-xl text-gray-600">
-            Thank you to these amazing organizations that make our work possible
+    <>
+      <div className="absolute xl:top-[0%] xl:left-[0%]">
+        <Image alt={'left triangle'} src={'/left-trim.svg'} width={300} height={300} className="xl:w-[300px] lg:w-[250px] md:w-[200px] w-[100px] opacity-70 z-0"/>
+      </div>
+      <div className="absolute top-[0%] right-[0%]">
+      <Image alt={'right triangle'} src={'/right-trim.svg'} width={300} height={300} className="xl:w-[300px] lg:w-[250px] md:w-[200px] w-[100px] opacity-70 z-0"/>
+      </div>
+      <div className="min-h-screen h-auto bg-[#124371] text-white flex items-center justify-center py-8">
+        <div className="w-4/5 h-6/7 flex-col justify-center">
+          <div className="relative flex justify-center">
+            <p className=" font-bold xl:text-6xl lg:text-5xl md:text-4xl sm:text-3xl text-2xl z-10 border-b-4 xl:pb-2 md:pb-1 mb-4 px-12 text-center mt-28">
+              SPONSORS
+            </p>
+            <p className=" absolute font-extrabold xl:text-[130px] lg:text-[80px] md:text-[60px] text-[40px] z-0 opacity-10 xl:top-[-80%] lg:top-[-50%] md:top-[-40 %] top-[-25%] tracking-widest mt-36 ">
+            SPONSORS
           </p>
-        </div>
+          </div>
 
-        {/* Sponsors Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sponsors.map((sponsor) => (
-            <a
-              key={sponsor.name}
-              href={sponsor.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="aspect-video relative mb-4">
-                {/* Add proper image component when you have the logos */}
-                <div className="absolute inset-0 bg-gray-100 rounded flex items-center justify-center">
-                  {sponsor.name}
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">{sponsor.name}</h3>
-              <p className="text-gray-600">{sponsor.description}</p>
-              <span className="inline-block mt-3 text-sm text-blue-600 capitalize">
-                {sponsor.tier} Sponsor
-              </span>
-            </a>
-          ))}
-        </div>
-
-        {/* Become a Sponsor CTA */}
-        <div className="text-center mt-16 p-8 bg-white rounded-xl shadow-sm">
-          <h2 className="text-3xl font-bold mb-4">Become a Sponsor</h2>
-          <p className="text-gray-600 mb-8">
-            Support our project and get your company featured on this page
-          </p>
-          <a 
-            href="mailto:your-email@example.com"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 inline-block"
-          >
-            Contact Us
-          </a>
+          <div className="lg:w-3/4 md:4/5 mx-auto font-semibold xl:text-xl md:text-lg sm:text-base">
+            <ul className="list-disc pl-5">
+              <li>
+                <p className="text-justify">
+                  The Maha CSR Event highlights the critical role of sponsors in
+                  enabling the event's success and amplifying its impact. This
+                  section acknowledges the generous contributions of corporate
+                  leaders, philanthropic organizations, and visionary sponsors
+                  who share the event's commitment to driving meaningful change.
+                  Through their support, sponsors not only provide vital
+                  resources but also demonstrate their dedication to fostering
+                  sustainable development and social responsibility.
+                </p>
+              </li>
+              <li>
+                <p className="mt-6 text-justify">
+                  The section outlines the benefits of sponsorship, showcasing
+                  how it serves as a powerful platform for sponsors to align
+                  their brand with impactful initiatives, gain visibility among
+                  industry leaders, and build meaningful connections with
+                  change-makers. It also offers various sponsorship tiers
+                  tailored to diverse objectives, ensuring every sponsor finds
+                  an opportunity to contribute and engage meaningfully. By
+                  celebrating the role of sponsors, this section underscores the
+                  importance of shared responsibility in creating a more
+                  equitable and sustainable future.
+                </p>
+              </li>
+            </ul>
+            <div className="flex justify-center mt-6">
+              <button className="bg-[#dcdcdc] text-black px-10 py-4 font-bold mt-2">
+                CLICK HERE
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </main>
+    </>
   );
-} 
+};
+
+export default Page;

@@ -1,0 +1,13 @@
+[
+    {
+      "id": 1,
+      "src": "./partner_1.jpg",
+      "alt": "Partner 1"
+    },
+    {
+      "id": 2,
+      "src": "./partner_2.jpg",
+      "alt": "Partner 2"
+    }
+  ]
+  

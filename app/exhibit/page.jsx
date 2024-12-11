@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-
+import Link from 'next/link';
 const page = () => {
   const Exhibitors = 30
   const Stalls = 20
@@ -14,7 +14,7 @@ const page = () => {
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
-            height: "90vh",
+            height: "100vh",
             width: "100vw",
             position: "relative",
           }}
@@ -36,7 +36,7 @@ const page = () => {
         {/* Content */}
         <div className='absolute max-w-[90%] sm:max-w-[80%] md:max-w-[70%] lg:max-w-[80%] xl:max-w-[65%] px-4'>
           {/* Heading */}
-          <h1 className="font-bold text-4xl sm:text-5xl text-white relative md:text-6xl lg:text-7xl font-montserrat tracking-wide">
+          <h1 className="font-bold text-4xl sm:text-5xl text-white relative md:text-6xl lg:text-7xl font-montserrat tracking-wide mt-16">
             EXHIBIT WITH US
             <span className=" block mt-3 h-1 bg-white w-3/5 md:w-[70%] lg:w-[60%] xl:w-[60%] 2xl:w-[55%] "></span>
           </h1>
@@ -50,9 +50,9 @@ const page = () => {
             and feedback, fostering the exchange of ideas that can inspire new projects and
             collaborations.
             <br /><br />
-            Beyond visibility and networking, exhibitors benefit from the event’s media coverage, digital
+            Beyond visibility and networking, exhibitors benefit from the event's media coverage, digital
             outreach, and promotional activities, which further amplify their brand and initiatives.
-            Exhibiting at the Maha CSR Event is more than just a showcase it’s an opportunity to build
+            Exhibiting at the Maha CSR Event is more than just a showcase it's an opportunity to build
             meaningful connections, drive impactful collaborations, and contribute to shaping a
             sustainable future.
           </p>
@@ -113,7 +113,7 @@ const page = () => {
         </div>
       </div>
       <div className='flex justify-center items-center p-4 h-[10vh] mt-10'>
-      <button className='bg-[#153c5c] p-2 w-[20vh] md:w-[40vh] rounded-full text-white text-2xl font-bold hover:opacity-85'>REGISTER</button>
+      <Link href="/registerform"><button className='bg-[#153c5c] p-2 w-[20vh] md:w-[40vh] rounded-full text-white text-2xl font-bold hover:opacity-85'>REGISTER</button></Link>
       </div>
       <div className='h-[6vh] md:h-[20vh] w-[10vh]'>
           {/* GAP */}

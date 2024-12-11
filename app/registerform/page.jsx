@@ -1,3 +1,4 @@
+// JSX File
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -17,14 +18,11 @@ const Page = () => {
     website: '',
   });
 
-  // Updated fetchBookedStalls function
   const fetchBookedStalls = async () => {
     try {
       const response = await fetch('/api/stallData');
       if (!response.ok) throw new Error('Failed to fetch booked stalls');
       const data = await response.json();
-      
-      // Create a Set of stall IDs in the format "stall{number}"
       const booked = new Set(
         data.map(stall => `stall${stall.Stall_Number}`)
       );
@@ -38,7 +36,6 @@ const Page = () => {
     fetchBookedStalls();
   }, []);
 
-  // Handle input field changes
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -46,7 +43,6 @@ const Page = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -71,7 +67,6 @@ const Page = () => {
           body: JSON.stringify({ stall_id: stallNumber }), 
         });
       });
-      
 
       const results = await Promise.all(stallPromises);
       const failedUpdates = results.filter((r) => !r.ok);
@@ -100,7 +95,6 @@ const Page = () => {
     }
   };
 
-  // Handle stall selection change
   const handleStallSelectionChange = (newSelectedStalls) => {
     const validStalls = new Set(
       [...newSelectedStalls].filter((stallId) => !bookedStalls.has(stallId))
@@ -118,72 +112,83 @@ const Page = () => {
       </header>
 
       <section className="form-section">
-        <h2 className="font-semibold mb-4 ">Register to Exhibit</h2>
-
+        <h2 className="font-semibold mb-2">Register to Exhibit</h2>
+        <div
+        className=" border-t-2 border-black mt-2 mb-8 mx-[300px]"
+        // style={{ width: "87%" }}
+      ></div>
         <form onSubmit={handleSubmit} className="exhibit-form">
-          <div className="form-group">
-            <label htmlFor="name" className="form-label">Name</label>
-            <input 
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              className="register-forminput"
-              type="text"
-              placeholder="Name"
-              required
-            />
-            <label htmlFor="organization_name" className="form-label">Organization Name</label>
-            <input 
-              id="organization_name"
-              name="organization_name"
-              value={formData.organization_name}
-              onChange={handleInputChange}
-              className="register-forminput"
-              type="text"
-              placeholder="Organization Name"
-              required
-            />
-            <label htmlFor="designation" className="form-label">Designation</label>
-            <input 
-              id="designation"
-              name="designation"
-              value={formData.designation}
-              onChange={handleInputChange}
-              className="register-forminput"
-              type="text"
-              placeholder="Designation"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="contact" className="form-label">Contact Number</label>
-            <input 
-              id="contact"
-              name="contact"
-              value={formData.contact}
-              onChange={handleInputChange}
-              className="register-forminput"
-              type="text"
-              placeholder="Contact Number"
-            />
-            <input 
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="register-forminput"
-              type="email"
-              placeholder="Official Email ID"
-            />
-            <input 
-              name="website"
-              value={formData.website}
-              onChange={handleInputChange}
-              className="register-forminput"
-              type="text"
-              placeholder="Website/ Social Media Links"
-            />
+          <div className="form-inputcontainer">
+          <div className="form-column">
+            <div className="form-group">
+              <label htmlFor="name" className="form-label">Name</label>
+              <input 
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="register-forminput"
+                type="text"
+                placeholder="Name"
+                required
+              />
+              <label htmlFor="organization_name" className="form-label">Organization Name</label>
+              <input 
+                id="organization_name"
+                name="organization_name"
+                value={formData.organization_name}
+                onChange={handleInputChange}
+                className="register-forminput"
+                type="text"
+                placeholder="Organization Name"
+                required
+              />
+              <label htmlFor="designation" className="form-label">Designation</label>
+              <input 
+                id="designation"
+                name="designation"
+                value={formData.designation}
+                onChange={handleInputChange}
+                className="register-forminput"
+                type="text"
+                placeholder="Designation"
+              />
+            </div>
           </div>
 
+          <div className="form-column">
+            <div className="form-group">
+              <label htmlFor="contact" className="form-label">Contact Number</label>
+              <input 
+                id="contact"
+                name="contact"
+                value={formData.contact}
+                onChange={handleInputChange}
+                className="register-forminput"
+                type="text"
+                placeholder="Contact Number"
+              />
+              <label htmlFor="contact" className="form-label">Official Email ID</label>
+              <input 
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="register-forminput"
+                type="email"
+                placeholder="Official Email ID"
+              />
+              <label htmlFor="contact" className="form-label">Website/ Social Media Links</label>
+              <input 
+                name="website"
+                value={formData.website}
+                onChange={handleInputChange}
+                className="register-forminput"
+                type="text"
+                placeholder="Website/ Social Media Links"
+              />
+            </div>
+          </div>
+          </div>
           <Exhibit
             onStallSelectionChange={handleStallSelectionChange}
             bookedStalls={bookedStalls}
@@ -194,7 +199,7 @@ const Page = () => {
             {selectedStalls.size > 0 ? (
               <div className="mt-8">
                 <h3 className="text-lg font-semibold">Selected Stalls:</h3>
-                <p className="text-gray-700">
+                <p className="text-[#151515] text-lg">
                   {[...selectedStalls]
                     .map((stallId) => stallId.replace(/[^\d]/g, ''))
                     .join(', ')}
