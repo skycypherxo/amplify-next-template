@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
-const Exhibit = ({ onStallSelectionChange, bookedStalls }) => {
+const Exhibit = ({ onStallSelectionChange, bookedStalls, reservedStalls }) => {
   const svgContainer = useRef(null);
   const zoomContainerRef = useRef(null);
   const [selectedStalls, setSelectedStalls] = useState(new Set());
@@ -128,10 +128,19 @@ const Exhibit = ({ onStallSelectionChange, bookedStalls }) => {
               }
             });
 
+            // Color reserved stalls yellow and make them unclickable
+            reservedStalls.forEach((stallId) => {
+              const stall = svgElement.getElementById(stallId);
+              if (stall) {
+                stall.style.fill = "yellow"; // Set reserved stalls to yellow
+                stall.style.pointerEvents = "none"; // Disable interactions
+              }
+            });
+
             // Add event listeners to each stall dynamically
             for (let i = 1; i <= 164; i++) {
               const stall = svgElement.getElementById(`stall${i}`);
-              if (stall) {
+              if (stall && !bookedStalls.has(`stall${i}`) && !reservedStalls.has(`stall${i}`)) {
                 stall.addEventListener("click", (event) => {
                   // Prevent dragging when clicking on stalls
                   event.stopPropagation();
@@ -177,7 +186,7 @@ const Exhibit = ({ onStallSelectionChange, bookedStalls }) => {
     };
 
     loadSVG();
-  }, [bookedStalls]);
+  }, [bookedStalls, reservedStalls]);
 
   // Improved drag handling
   const handleMouseDown = (event) => {
