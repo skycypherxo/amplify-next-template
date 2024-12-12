@@ -143,6 +143,8 @@ const Page = () => {
         throw new Error(`Failed to update status for ${failedUpdates.length} stall(s)`);
       }
   
+      
+
       // Fetch updated stall data after the booking is confirmed
       await fetchStallData();
   
