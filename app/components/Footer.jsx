@@ -21,15 +21,15 @@ const Footer = () => {
           </p>
           <div className="flex items-center  mb-3">
           <FaInstagram />
-            <p className=" w-full flex justify-center items-center">@shivam</p>
+            <p className=" w-full flex pl-4 items-center">@shivam</p>
           </div>
           <div className="flex items-center mb-3">
           <FaXTwitter />
-            <p className="w-full flex justify-center items-center">@shivam</p>
+            <p className="w-full flex pl-4 items-center">@shivam</p>
           </div>
           <div className="flex items-center mb-3">
           <FaYoutube />
-            <p className="w-full flex justify-center items-center">shivam</p>
+            <p className="w-full flex pl-4 items-center">@shivam</p>
           </div>
         </div>
         <div className="xl:w-[400px] lg:w-[300px] md:w-[350px] lg:pb-4 lg:my-0 md:my-3 md:text-xl text-base">
