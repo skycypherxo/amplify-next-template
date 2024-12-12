@@ -6,7 +6,7 @@ export async function POST() {
     await new Promise((resolve) => 
       setTimeout(() => {
         resolve(); // Resolve after 30 seconds
-      }, 30000) // 30 seconds
+      }, 5000) // 30 seconds
     );
 
     // Return success message after delay
