@@ -75,20 +75,23 @@ const Page = () => {
       }
   
       // Step 2: Reserve the selected stalls
-      const stallPromises = [...selectedStalls].map((stallId) => {
-        const stallNumber = parseInt(stallId.replace(/[^\d]/g, ""), 10);
-  
-        return fetch("/api/reservedStall", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ stall_id: stallNumber, duration: 30000 }), // Reserve for 30 seconds
-        });
+      const stallNumbers = [...selectedStalls].map((stallId) => 
+        parseInt(stallId.replace(/[^\d]/g, ""), 10)
+      );
+      
+      const response = await fetch("/api/reservedStall", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          stall_ids: stallNumbers, 
+          duration: 30000 
+        }), // Reserve for 30 seconds
       });
-  
-      const results = await Promise.all(stallPromises);
-      const failedReservations = results.filter((r) => !r.ok);
-      if (failedReservations.length > 0) {
-        throw new Error(`Failed to reserve ${failedReservations.length} stall(s)`);
+      
+      const results = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(`Failed to reserve ${stallNumbers.length} stall(s)`);
       }
   
       // Fetch and log reserved stalls after successful reservation
