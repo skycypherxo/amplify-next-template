@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./awards.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const AwardNominationForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -74,11 +77,11 @@ const AwardNominationForm = () => {
             throw new Error(data.error || 'Failed to submit data');
         }
 
-        alert('Form submitted successfully!');
+        toast('Form submitted successfully!');
         
     } catch (error) {
         console.error('Error submitting data:', error);
-        alert(error.message || 'Failed to submit form');
+        toast(error.message || 'Failed to submit form');
     }
 };
   
@@ -157,7 +160,7 @@ const AwardNominationForm = () => {
             name="websiteLink"
             value={formData.websiteLink}
             onChange={handleChange}
-            className={`w-full form-input mt-1 p-2 border ${errors.websiteLink ? "border-red-500" : "border-gray-300"} rounded-md`}
+            className={`w-full form-input mt-1 p-2 border rounded-md`}
           />
           {errors.websiteLink && <p className="text-red-500 text-sm">{errors.websiteLink}</p>}
         </div>
@@ -204,6 +207,7 @@ const AwardNominationForm = () => {
           >
             SUBMIT
           </button>
+          <ToastContainer/>
         </div>
       </form>
     </div>

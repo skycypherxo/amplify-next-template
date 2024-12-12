@@ -28,7 +28,7 @@ const SummitDetails = () => {
         height={200}
         className="absolute top-0 right-0 opacity-20 lg:opacity-100"
       />
-      <div className="w-[90%] h-[90%] bg-[#022948] p-8 shadow-md flex flex-col justify-center items-center">
+      <div className="w-[90%] h-[90%] bg-[#022948] p-8 shadow-md flex flex-col justify-center items-center ">
         {/* Title split into two lines */}
         <h3 className="text-4xl sm: mt-24 font-bold text-center text-white mb-8 md:mb-16">
           WHY JOIN MAHA CSR

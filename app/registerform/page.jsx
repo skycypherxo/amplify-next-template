@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Exhibit from "../Exhibit";
 import "./exhibitform.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
   const [selectedStalls, setSelectedStalls] = useState(new Set());
@@ -54,6 +56,7 @@ const Page = () => {
     });
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -157,10 +160,10 @@ const Page = () => {
       });
       setSelectedStalls(new Set());
   
-      alert("Form submitted, payment successful, booking confirmed, and stall data fetched!");
+      toast("Form submitted, payment successful, booking confirmed, and stall data fetched!");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert(`Failed to submit form: ${error.message}`);
+      toast(`Failed to submit form: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -238,8 +241,9 @@ const Page = () => {
                   value={formData.contact}
                   onChange={handleInputChange}
                   className="register-forminput"
-                  type="text"
-                  placeholder="Contact Number"
+                  type="tel"
+                  placeholder="10 digit phone number"
+                  pattern="[0-9]{10}"
                 />
                 <label htmlFor="email" className="form-label">Official Email ID</label>
                 <input
@@ -248,7 +252,7 @@ const Page = () => {
                   onChange={handleInputChange}
                   className="register-forminput"
                   type="email"
-                  placeholder="Official Email ID"
+                  placeholder="eg. example@gmail.com"
                 />
                 <label htmlFor="website" className="form-label">Website/ Social Media Links</label>
                 <input
@@ -256,8 +260,8 @@ const Page = () => {
                   value={formData.website}
                   onChange={handleInputChange}
                   className="register-forminput"
-                  type="text"
-                  placeholder="Website/ Social Media Links"
+                  type="url"
+                  placeholder="eg. https://www.google.co.in/ "
                 />
               </div>
             </div>
@@ -288,6 +292,7 @@ const Page = () => {
           <button type="submit" id="registerform-submitbutton" disabled={isSubmitting}>
             {isSubmitting ? "Booking..." : "Book"}
           </button>
+          <ToastContainer/>
         </form>
       </section>
     </div>
